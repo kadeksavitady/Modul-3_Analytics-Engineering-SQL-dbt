@@ -1,0 +1,16 @@
+# Mengabaikan virtual environment Python
+.venv/
+venv/
+env/
+
+# Mengabaikan file cache
+__pycache__/
+
+# Mengabaikan folder dataset atau file data yang besar
+dataset/
+data/
+*.csv
+*.json
+*.parquet
+logs
+*.log

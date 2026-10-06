@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: customers
+      - name: products
+      - name: orders
+      - name: payments
+
+models:
+  - name: dim_customer
+    description: "Tabel dimensi yang berisi data detail pelanggan."
+    columns:
+      - name: customer_id
+        description: "Kunci utama pengenal pelanggan."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_product
+    description: "Tabel dimensi yang berisi data kategori produk."
+    columns:
+      - name: product_id
+        description: "Kunci utama pengenal produk."
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_sales
+    description: "Fact table dengan grain satu baris per order line."
+    columns:
+      - name: customer_id
+        description: "Kunci tamu yang terhubung dengan dim_customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: product_id
+        description: "Kunci tamu yang terhubung dengan dim_product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: sales_amount
+        description: "Nilai penjualan transaksi (quantity * unit_price)."
